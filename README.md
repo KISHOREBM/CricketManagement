@@ -80,23 +80,7 @@ Admin capabilities include:
 
 ---
 
-## 🖼️ Screenshots
 
-> Add these files in your GitHub repo and reference them like:
-
-### 🏠 Home Page
-![Home](./home.jpg)
-
-### 🔐 Login Page
-![Sign In](./sign1.jpg)
-
-### 🧑‍💼 Player Section
-![Player](./player.jpg)
-
-### 🏟️ Ground Page
-![Ground](./ground.jpg)
-
----
 
 ## ✅ Example Pages
 
