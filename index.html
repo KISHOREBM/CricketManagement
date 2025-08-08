@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('team.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            background-color: #6c757d;
+            backdrop-filter:blur(10px);
+           
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .team-selector {
+            max-width: 400px;
+            margin: 0 auto 20px;
+            display: block;
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #fff;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: #333;
+            position: relative ;
+        }
+        .team-selector option {
+            padding: 10px;
+        }
+        .team-details {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: none; /* Hide initially */
+            color:white;
+        }
+        .team-details.show {
+            display: block; 
+        }
+        .team-details h2 {
+            margin-top: 0;
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            font-size: 1.8em;
+        }
+        .team-details p {
+            margin-bottom: 12px;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+        .team-details strong {
+            color: #333;
+        }
+        .team-details a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .team-details a:hover {
+            text-decoration: underline;
+        }
+        .team-details p span {
+            color: #20252a;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Select a Team</h1>
+
+<!-- Dropdown to select teams -->
+<select id="teamSelect" class="team-selector">
+    <option value="">Select Team</option>
+</select>
+
+<!-- Container to display team details -->
+<div id="teamDetails" class="team-details">
+    <h2>Team Details</h2>
+    <p><strong>Name:</strong> <span id="teamName"></span></p>
+    <p><strong>Abbreviation:</strong> <span id="teamAbbreviation"></span></p>
+    <p><strong>Founded Year:</strong> <span id="teamFoundedYear"></span></p>
+    <p><strong>Country:</strong> <span id="teamCountry"></span></p>
+    <p><strong>City:</strong> <span id="teamCity"></span></p>
+    <p><strong>Stadium:</strong> <span id="teamStadium"></span></p>
+    <p><strong>Coach:</strong> <span id="teamCoach"></span></p>
+    <p><strong>Captain:</strong> <span id="teamCaptain"></span></p>
+    <p><strong>Manager:</strong> <span id="teamManager"></span></p>
+    <p><strong>Chairman:</strong> <span id="teamChairman"></span></p>
+    <p><strong>League:</strong> <span id="teamLeague"></span></p>
+    <p><strong>Trophies:</strong> <span id="teamTrophies"></span></p>
+   
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var teamSelect = document.getElementById("teamSelect");
+    var teamDetails = document.getElementById("teamDetails");
+    var teamName = document.getElementById("teamName");
+    var teamAbbreviation = document.getElementById("teamAbbreviation");
+    var teamFoundedYear = document.getElementById("teamFoundedYear");
+    var teamCountry = document.getElementById("teamCountry");
+    var teamCity = document.getElementById("teamCity");
+    var teamStadium = document.getElementById("teamStadium");
+    var teamCoach = document.getElementById("teamCoach");
+    var teamCaptain = document.getElementById("teamCaptain");
+    var teamManager = document.getElementById("teamManager");
+    var teamChairman = document.getElementById("teamChairman");
+    var teamLeague = document.getElementById("teamLeague");
+    var teamTrophies = document.getElementById("teamTrophies");
+    
+
+    // Fetch team names via AJAX
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                try {
+                    var teams = JSON.parse(xhr.responseText);
+                    console.log("Fetched teams:", teams); // Log the fetched teams
+                    populateTeamDropdown(teams);
+                } catch (e) {
+                    console.error('Error parsing JSON:', e);
+                }
+            } else {
+                console.error('Error fetching teams:', xhr.status);
+            }
+        }
+    };
+
+    xhr.open("GET", "fetch_teams.php", true);
+    xhr.send();
+
+    function populateTeamDropdown(teams) {
+        teamSelect.innerHTML = '<option value="">Select Team</option>'; // Clear existing options
+        teams.forEach(function(team) {
+            var option = document.createElement("option");
+            option.textContent = team; // Team name
+            option.value = team; // Team name
+            teamSelect.appendChild(option);
+        });
+    }
+
+    // Event listener for team selection
+    teamSelect.addEventListener("change", function() {
+        var selectedTeam = this.value;
+        if (selectedTeam === "") {
+            teamDetails.classList.remove("show");
+        } else {
+            fetchTeamDetails(selectedTeam);
+        }
+    });
+
+    function fetchTeamDetails(teamName) {
+        // AJAX request to fetch team details
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    try {
+                        var team = JSON.parse(xhr.responseText);
+                        console.log("Fetched team details:", team); // Log the fetched team details
+                        displayTeamDetails(team);
+                    } catch (e) {
+                        console.error('Error parsing JSON:', e);
+                    }
+                } else {
+                    console.error('Error fetching team details:', xhr.status);
+                }
+            }
+        };
+
+        xhr.open("GET", "fetch_team_details.php?team=" + encodeURIComponent(teamName), true);
+        xhr.send();
+    }
+
+    function displayTeamDetails(team) {
+        if (team) {
+            teamName.textContent = team.teamname || 'N/A';
+            teamAbbreviation.textContent = team.abbreviation || 'N/A';
+            teamFoundedYear.textContent = team.founded_year || 'N/A';
+            teamCountry.textContent = team.country || 'N/A';
+            teamCity.textContent = team.city || 'N/A';
+            teamStadium.textContent = team.stadium || 'N/A';
+            teamCoach.textContent = team.coach || 'N/A';
+            teamCaptain.textContent = team.captain || 'N/A';
+            teamManager.textContent = team.manager || 'N/A';
+            teamChairman.textContent = team.chairman || 'N/A';
+            teamLeague.textContent = team.league || 'N/A';
+            teamTrophies.textContent = team.trophies || 'N/A';
+            
+
+            teamDetails.classList.add("show");
+        } else {
+            console.error('No team details found.');
+        }
+    }
+});
+</script>
+
+</body>
+</html>

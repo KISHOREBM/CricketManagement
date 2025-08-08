@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search Bar Example</title>
+<style>
+    /* Minimal CSS for the search bar */
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-image:url("player.jpg");
+        background-size:100%;
+        background-repeat:no-repeat;
+    }
+    
+    .search-container {
+        display:flex;
+        width: 500px;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+    
+    .search-input {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        font-size: 16px;
+    }
+    
+    .search-button {
+        background-color: rgba(57, 53, 53, 0.5);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+    
+    .search-button:hover {
+        background-color: #b84b66;
+    }
+</style>
+</head>
+<body>
+    <div class="search-container">
+        <input type="text" placeholder="Enter the player name" class="search-input">
+        <button type="submit" class="search-button" onclick="player.php" >Search</button>
+    </div>
+</body>
+</html>

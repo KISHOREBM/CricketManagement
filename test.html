@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search Bar Example</title>
+<style>
+    /* Minimal CSS for the search bar */
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-image: url("player.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    
+    .search-container {
+        display: flex;
+        width: 500px;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+    
+    .search-input {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        font-size: 16px;
+    }
+    
+    .search-button {
+        background-color: rgba(57, 53, 53, 0.5);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+    
+    .search-button:hover {
+        background-color: #b84b66;
+    }
+    
+    .player-details {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .player-details h2 {
+        color: #007bff;
+        margin-bottom: 10px;
+    }
+    
+    .player-details p {
+        margin: 5px 0;
+    }
+</style>
+</head>
+<body>
+    <div class="search-container">
+        <input id="playerName" type="text" placeholder="Enter the player name" class="search-input">
+        <button type="button" class="search-button" onclick="searchPlayer()">Search</button>
+    </div>
+
+    <div id="playerDetails" class="player-details">
+        <!-- Player details will be displayed here -->
+    </div>
+
+    <script>
+        function searchPlayer() {
+            var playerName = document.getElementById("playerName").value;
+            if (playerName.trim() !== "") {
+                // Redirect to player.php with player name as parameter
+                window.location.href = 'player.php?pname=' + encodeURIComponent(playerName);
+            } else {
+                alert("Please enter a player name.");
+            }
+        }
+    </script>
+</body>
+</html>
